@@ -1,3 +1,5 @@
+import hashlib, math
+
 from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
@@ -9,14 +11,15 @@ from django.views.generic.edit import CreateView
 #main page
 @csrf_exempt
 def homepage(request):
-    return render(request, 'urlShortener/index.html')
+    urlInfo = UrlHistory.objects
+    return render(request, 'urlShortener/index.html', {'urlInfo': urlInfo})
 
 # redirect function
 def redirect_originalUrl(request, url_IdHash):
     url = get_object_or_404(UrlHistory, )
     return None
 
-# hashing function
+# hashing and create function
 """
 <1.먼저 두 형태로 hashing한다.>
 ㅣ---- url hashing : md5 hashing 사용 (동일한 입력값에 대해 결과가 항상 같기때문.)
@@ -30,6 +33,35 @@ why? : url은 길이가 굉장히 길기때문에 crc32, md5, 또는 커스텀 �
 db 내에서 긴 길이의 url끼리 중복체크를 하는것보다, 해싱된 문자를 비교하는게 비용이 더 저렴.
 다만, 다른 url끼리 해싱값이 같을 수 있으니, 해싱값이 같은 경우 original_url도 중복체크한다.(확률이 낮으므로 큰 비용 소모되지 않을듯하다.)
 해싱값이 같고, original_url도 같다면 완전히 중복되므로, 기존 original_url의 id 해싱값을 리턴한다.
+
+<3. 체크포인트>
+
 """
 def hashingUrl(request):
+    original_url = request.POST.get("url", '')
+    if not (original_url == ""):
+        url_UrlHash = make_md5(original_url)
+        url_IdHash = make_base62()
     return None
+
+# md5 해싱
+def make_md5(original_url):
+    result = ""
+    input_url = original_url.encode('utf-8')
+    tmp = hashlib.md5()
+    tmp.update(input_url)
+    result = tmp.hexdigest()
+    return result
+
+def make_base62(url_id):
+    result = ""
+    base62_char = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    char_cnt = url_id % 62
+    result = base62_char[char_cnt]
+    char_cnt_floor = math.floor(url_id / 62)
+    while char_cnt_floor:
+        char_cnt = char_cnt_floor % 62
+        char_cnt_floor = math.floor(char_cnt_floor / 62)
+        result = base62_char[int(char_cnt)] + result
+    return result
+
