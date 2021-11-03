@@ -1,16 +1,28 @@
 {% extends "base.html" %}
-{% block title %}URL Shortner - Make your URL shorter!{% endblock %}
+{% block title %}URL Shortner - by HUN{% endblock %}
 {% block content %}
-<div class="panel panel-default">
-    <div class="panel-body">
-        <div class="col-sm-9">
-            <input type="text" name="url" id="url" class="form-control input-sm" placeholder="http://www.naver.com" />
-        </div>
-        <div class="col-sm-3">
+            <header id="header">
+             <h1>URL Shortener</h1><h2>by HUN</h2>
+				<p>안녕하세요!<br />
+				<span id="url-result">링크를 입력하시고, 결과를 확인하세요!</span></p>
+			</header>
+
+		<!-- Shortener Form -->
             {% csrf_token %}
-            <button id="submitButton" class="btn btn-primary">Submit</button></p>
-        </div>
-    </div>
-    <div class="panel-footer"><span id="url-result">Enter the URL above and click submit!</span></div>
-</div>
+			<form id="shortener-form" method="post" action="#">
+				<input type="text" name="url" id="url" class="form-control input-sm" placeholder="Shorten your link" />
+                <input type="submit" id="submitButton" value="Shorten" />
+                <span class="message"></span>
+			</form>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<ul class="icons">
+					<li><a href="https://github.com/jerrygoha" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+				</ul>
+				<ul class="copyright">
+					<li>&copy; made by JEHUN HA.</li>
+				</ul>
+			</footer>
+
 {% endblock %}
