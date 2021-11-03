@@ -3,25 +3,25 @@
 {% block content %}
             <header id="header">
              <h1>URL Shortener</h1><h2>by HUN</h2>
-				<p>안녕하세요!<br />
-				<span id="url-result">링크를 입력하시고, 결과를 확인하세요!</span></p>
+				<p>긴 URL을 보다 간단하게!</p>
+				<p><i class="fa fa-terminal fa-1x fa-fw"></i><span id="url-result"></span></p>
 			</header>
 
 		<!-- Shortener Form -->
             {% csrf_token %}
 			<form id="shortener-form" method="post" action="#">
-				<input type="text" name="url" id="url" class="form-control input-sm" placeholder="Shorten your link" />
-                <input type="submit" id="submitButton" value="Shorten" />
+				<input type="text" autocomplete="off" name="url" id="url" class="form-control input-sm" placeholder="이곳에 링크를 입력해주세요!" />
+                <input type="submit" id="submitButton" value="Shorten!" />
                 <span class="message"></span>
 			</form>
 
 		<!-- Footer -->
 			<footer id="footer">
 				<ul class="icons">
-					<li><a href="https://github.com/jerrygoha" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+					<li><a href="https://github.com/jerrygoha/hun.kr_Url_shortener" target="_blank" class="fa fa-github"><span class="label">GitHub</span></a></li>
 				</ul>
 				<ul class="copyright">
-					<li>&copy; made by JEHUN HA.</li>
+					<li>&copy; 2021 made by JEHUN HA.</li>
 				</ul>
 			</footer>
 

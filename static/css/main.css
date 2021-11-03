@@ -1,4 +1,4 @@
-@import url(fontawesome-all.min.css);
+@import url(font-awesome.min.css);
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,700");
 
 html, body, div, span, applet, object,
@@ -736,7 +736,7 @@ button,
   cursor: pointer;
   display: inline-block;
   font-weight: 700;
-  height: 2.75em;
+  height: 3.5em;
   line-height: 2.75em;
   padding: 0 1.125em;
   text-align: center;
