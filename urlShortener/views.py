@@ -1,9 +1,10 @@
-import hashlib, math
+import hashlib, math, json
 
 from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 
 from .models import UrlHistory
 from django.views.generic.edit import CreateView
@@ -11,13 +12,14 @@ from django.views.generic.edit import CreateView
 #main page
 @csrf_exempt
 def homepage(request):
+    #오브젝트 넘길건지 아닌지 고려 필요
     urlInfo = UrlHistory.objects
     return render(request, 'urlShortener/index.html', {'urlInfo': urlInfo})
 
 # redirect function
-def redirect_originalUrl(request, url_IdHash):
-    url = get_object_or_404(UrlHistory, )
-    return None
+def redirect_originalUrl(request, hashed_id):
+    url = get_object_or_404(UrlHistory, url_IdHash=hashed_id)
+    return HttpResponseRedirect(url.url_originalAddr)
 
 # hashing and create function
 """
@@ -39,10 +41,36 @@ db 내에서 긴 길이의 url끼리 중복체크를 하는것보다, 해싱된 
 """
 def hashingUrl(request):
     original_url = request.POST.get("url", '')
+    url_UrlHash = ""
+    id_IdHash = ""
     if not (original_url == ""):
         url_UrlHash = make_md5(original_url)
-        url_IdHash = make_base62()
-    return None
+        #original_url 중복체크
+        try:
+            #중복
+            _url = UrlHistory.objects.get(url_UrlHash=url_UrlHash)
+        except:
+            #중복x
+            _url = None
+
+        if _url is None: #중복x
+            db_input = UrlHistory(url_originalAddr=original_url, url_UrlHash=url_UrlHash)
+            db_input.save()
+
+            # id hash save
+            temp_obj = UrlHistory.objects.get(url_originalAddr=original_url)
+            id_IdHash = make_base62(temp_obj.id)
+            temp_obj.url_IdHash = id_IdHash
+            temp_obj.save()
+        else: #중복있는경우, 기존 idhash반환
+            id_IdHash = UrlHistory.objects.get(url_originalAddr=original_url).url_IdHash
+
+        response = {}
+        response["url"] = settings.SITE_URL + "/" + id_IdHash
+        return HttpResponse(json.dumps(response), content_type="application/json")
+    # response = {}
+    # response["1"] = original_url
+    return HttpResponse(json.dumps({"error": "error!!"}), content_type="application/json")
 
 # md5 해싱
 def make_md5(original_url):
