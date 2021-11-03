@@ -1,20 +1,19 @@
-import hashlib, math, json
+import hashlib
+import math
+import json
+import logging
 
-from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
 from .models import UrlHistory
-from django.views.generic.edit import CreateView
+
 
 #main page
-@csrf_exempt
 def homepage(request):
-    #오브젝트 넘길건지 아닌지 고려 필요
-    urlInfo = UrlHistory.objects
-    return render(request, 'urlShortener/index.html', {'urlInfo': urlInfo})
+    return render(request, 'urlShortener/index.html')
 
 # redirect function
 def redirect_originalUrl(request, hashed_id):
@@ -35,22 +34,15 @@ why? : url은 길이가 굉장히 길기때문에 crc32, md5, 또는 커스텀 �
 db 내에서 긴 길이의 url끼리 중복체크를 하는것보다, 해싱된 문자를 비교하는게 비용이 더 저렴.
 다만, 다른 url끼리 해싱값이 같을 수 있으니, 해싱값이 같은 경우 original_url도 중복체크한다.(확률이 낮으므로 큰 비용 소모되지 않을듯하다.)
 해싱값이 같고, original_url도 같다면 완전히 중복되므로, 기존 original_url의 id 해싱값을 리턴한다.
-
-<3. 체크포인트>
-
 """
 def hashingUrl(request):
-    original_url = request.POST.get("url", '')
-    url_UrlHash = ""
-    id_IdHash = ""
+    original_url = checkIsHttpThere(request.POST.get("url", ''))
     if not (original_url == ""):
         url_UrlHash = make_md5(original_url)
-        #original_url 중복체크
+        #중복체크
         try:
-            #중복
             _url = UrlHistory.objects.get(url_UrlHash=url_UrlHash)
         except:
-            #중복x
             _url = None
 
         if _url is None: #중복x
@@ -68,8 +60,6 @@ def hashingUrl(request):
         response = {}
         response["url"] = settings.SITE_URL + "/" + id_IdHash
         return HttpResponse(json.dumps(response), content_type="application/json")
-    # response = {}
-    # response["1"] = original_url
     return HttpResponse(json.dumps({"error": "error!!"}), content_type="application/json")
 
 # md5 해싱
@@ -81,6 +71,7 @@ def make_md5(original_url):
     result = tmp.hexdigest()
     return result
 
+# base62 해싱
 def make_base62(url_id):
     result = ""
     base62_char = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -92,4 +83,16 @@ def make_base62(url_id):
         char_cnt_floor = math.floor(char_cnt_floor / 62)
         result = base62_char[int(char_cnt)] + result
     return result
+
+#입력받은 주소 앞에 http://가 붙어있는지 체크
+#없다면 붙여준다!
+#https://로 들어왔다면 http로 바꿔서 저장 -> 어짜피 접속할때 ssl인증서가 있다면 https://로 접속된다.
+def checkIsHttpThere(input):
+    input_url = input
+    if "http://" in input_url:
+        return input_url
+    elif "https://" in input_url:
+        return "http://" + input_url[8:]
+    else:
+        return "http://"+input_url
 
