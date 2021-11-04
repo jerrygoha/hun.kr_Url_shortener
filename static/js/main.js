@@ -5,7 +5,7 @@ $(function() {
 	 	if (isUrl) {
 			$.ajax({
 				type: "POST",
-				url: "/reduce/",
+				url: "/shorten/",
 				data: {
 					'url': $('#url').val(),
 					'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()
@@ -14,12 +14,12 @@ $(function() {
 				dataType: 'json'
 			});
 		}else{
-	 		$('#url-result').text("잘못 입력하셨습니다. 정상적인 url을 입력해주세요.")
+	 		$('#url-result').text("잘못 입력하셨습니다. 정상적인 url을 입력해주세요.");
 		}
 	 });
 
 	 // 결과 출력
-	 function returnSuccess(data, textStatus, jqXHR) {
+	function returnSuccess(data, textStatus, jqXHR) {
         if (data.url) {
             $('#url-result').text(data.url);
             $('#url').val("");
@@ -27,16 +27,16 @@ $(function() {
     }
 
     // url 유효성 검사
-    function checkUrlValid(input){
+	function checkUrlValid(input){
 	 	var input_url = input;
 	 	var UrlCheck = /((\w+)[.])+(asia|biz|cc|cn|com|de|eu|in|info|jobs|jp|kr|mobi|mx|name|net|nz|org|travel|tv|tw|uk|us)(\/(\S*))*$/i;
 	 	var urlTest = UrlCheck.test(input_url);
 
-	 	return urlTest
-	}
+	 	return urlTest;
+	};
 
-	var	$body = document.querySelector('body');
-	// Methods/polyfills.
+		var	$body = document.querySelector('body');
+			// Methods/polyfills.
 		// classList | (c) @remy | github.com/remy/polyfills | rem.mit-license.org
 			!function(){function t(t){this.el=t;for(var n=t.className.replace(/^\s+|\s+$/g,"").split(/\s+/),i=0;i<n.length;i++)e.call(this,n[i])}function n(t,n,i){Object.defineProperty?Object.defineProperty(t,n,{get:i}):t.__defineGetter__(n,i)}if(!("undefined"==typeof window.Element||"classList"in document.documentElement)){var i=Array.prototype,e=i.push,s=i.splice,o=i.join;t.prototype={add:function(t){this.contains(t)||(e.call(this,t),this.el.className=this.toString())},contains:function(t){return-1!=this.el.className.indexOf(t)},item:function(t){return this[t]||null},remove:function(t){if(this.contains(t)){for(var n=0;n<this.length&&this[n]!=t;n++);s.call(this,n,1),this.el.className=this.toString()}},toString:function(){return o.call(this," ")},toggle:function(t){return this.contains(t)?this.remove(t):this.add(t),this.contains(t)}},window.DOMTokenList=t,n(Element.prototype,"classList",function(){return new t(this)})}}();
 		// canUse
