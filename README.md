@@ -1,10 +1,58 @@
 # Url_shortener
 
-### Preview
+### Description
+#### 사용자가 입력한 url을 숫자와 문자(영문)이 섞인 8자리 이하의 문자로 축약시켜주는 서비스
+
+## Preview
 <img width="100%" src="https://user-images.githubusercontent.com/48903443/140422113-6411ec34-09b8-4a74-aad0-2aa739c974f0.gif"/>
 
-[영상으로 보기](https://youtu.be/OZXnNHopzME)
+   - [영상으로 보기](https://youtu.be/OZXnNHopzME)
 
+### Prerequisite
+   - Python
+   - Pip3
+### Usage in Local
+```
+> git clone https://github.com/jerrygoha/hun.kr_Url_shortener.git
+
+> cd hun.kr_Url_shortener
+
+> pip install django
+
+> python manage.py makemigrations urlShortener
+
+# 모델의 변경사항 번호 체크 필요
+> python manage.py migrate urlShortener 0001
+
+> python manage.py runserver
+```
+### API
+#### Main Page
+|Role|Api|Parameter|
+|---|---|---|
+|Home Page|GET&nbsp;&nbsp;&nbsp;&nbsp;/|None|
+|Send Url|POST&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;shorten&nbsp;/|Url(original)|
+
+   - GET
+```
+  "GET / HTTP/1.1" 200 1626
+```
+   - POST
+```
+  "POST /shorten/ HTTP/1.1" 200 35
+```
+#### Redirect Shortened Url
+|Role|Api|Parameter|
+|---|---|---|
+|Redurect Original Url|GET&nbsp;&nbsp;&nbsp;&nbsp;/{shortened_url}|shortened_url value example : e92J9k|
+
+   - GET
+```
+  "GET /1n HTTP/1.1" 302 0
+```   - GET
+```
+  "GET /1nasd HTTP/1.1" 404 179
+```
 ### TO-DO
 1. URL Shortener
     
