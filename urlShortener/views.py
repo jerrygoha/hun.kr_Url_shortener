@@ -10,13 +10,15 @@ from django.conf import settings
 from .models import UrlHistory
 
 
-# 메인페이지
 def homepage(request):
+    """메인 페이지"""
+
     return render(request, 'urlShortener/index.html')
 
 
-# redirect function
 def redirect_originalUrl(request, hashed_id):
+    """shorten url을 입력받으면 redirect 시켜준다."""
+
     base10_id = __make_base10(hashed_id)
     url = get_object_or_404(UrlHistory, id=base10_id)
     return HttpResponseRedirect(url.url_originalAddr)
@@ -60,6 +62,7 @@ def hashingUrl(request):
 
 def __make_md5(original_url):
     """original_url을 md5로 인코딩한다."""
+
     input_url = original_url.encode('utf-8')
     tmp = hashlib.md5()
     tmp.update(input_url)
@@ -69,6 +72,7 @@ def __make_md5(original_url):
 
 def __make_base62(url_id):
     """id를 base62로 인코딩한다."""
+
     base62_char = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
     char_cnt = url_id % 62
     result = base62_char[char_cnt]
@@ -82,6 +86,7 @@ def __make_base62(url_id):
 
 def __make_base10(input):
     """base62 id_hash 를 10진수로 디코딩"""
+
     base62_char = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     result = 0
     for i in input:
@@ -95,6 +100,7 @@ def __rebuild_Url(input):
            사이트에 ssl 인증서가 있다면 자동으로 https://로 전환된다.
         2. url 마지막 문자가 "/" 라면 지워준다.
     """
+
     input_url = input
     if input_url[-1] is "/":
         input_url = input_url[:-1]
