@@ -122,7 +122,6 @@ $(function() {
 					$submit = document.querySelectorAll('#shortener-form input[type="submit"]')[0],
 					$message;
 
-			// Bail if addEventListener isn't supported.
 				if (!('addEventListener' in $form))
 					return;
 
@@ -147,7 +146,7 @@ $(function() {
 					$message.classList.remove('visible');
 				};
 
-			// Events.
+			// 메시지 출력
 				$form.addEventListener('submit', function(event) {
 					event.stopPropagation();
 					event.preventDefault();

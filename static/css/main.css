@@ -481,7 +481,7 @@ form {
     form .message.failure {
       color: #ff2361; }
       form .message.failure:before {
-        content: '\f119'; }
+        content: '\f06a'; }
 
 label {
   color: #fff;
