@@ -32,7 +32,7 @@ $(function() {
 	function checkUrlValid(input){
 		// url 유효성 검사
 	 	var $input_url = input;
-	 	var $UrlCheck = /((\w+)[.])+(asia|biz|cc|cn|com|de|eu|in|info|jobs|jp|kr|mobi|mx|name|net|nz|org|travel|tv|tw|uk|us)(\/(\S*))*$/i;
+	 	var $UrlCheck = /((\w+)[.])+(site|asia|biz|cc|cn|com|de|eu|in|info|jobs|jp|kr|mobi|mx|name|net|nz|org|travel|tv|tw|uk|us)(\/(\S*))*$/i;
 	 	var $urlTest = $UrlCheck.test($input_url);
 
 	 	return $urlTest;
