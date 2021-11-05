@@ -38,7 +38,6 @@ typing-extensions == 3.10.0.2
 > python manage.py makemigrations urlShortener
 
 # 모델의 변경사항 번호(number) 체크 필요
-
 > python manage.py migrate urlShortener {number}
 
 > python manage.py runserver
