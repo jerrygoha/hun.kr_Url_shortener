@@ -19,21 +19,25 @@
    - Pip3
 
 
-## Usage in Local
-```
-> git clone https://github.com/jerrygoha/hun.kr_Url_shortener.git
+[comment]: <> (## Usage in Local)
 
-> cd hun.kr_Url_shortener
+[comment]: <> (```)
 
-> pip install django
+[comment]: <> (> git clone https://github.com/jerrygoha/hun.kr_Url_shortener.git)
 
-> python manage.py makemigrations urlShortener
+[comment]: <> (> cd hun.kr_Url_shortener)
 
-# 모델의 변경사항 번호(number) 체크 필요
-> python manage.py migrate urlShortener {number}
+[comment]: <> (> pip install django)
 
-> python manage.py runserver
-```
+[comment]: <> (> python manage.py makemigrations urlShortener)
+
+[comment]: <> (# 모델의 변경사항 번호&#40;number&#41; 체크 필요)
+
+[comment]: <> (> python manage.py migrate urlShortener {number})
+
+[comment]: <> (> python manage.py runserver)
+
+[comment]: <> (```)
 
 
 ## API
