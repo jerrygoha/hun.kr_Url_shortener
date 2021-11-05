@@ -15,29 +15,35 @@
 
 
 ## Prerequisite
-   - Python
-   - Pip3
+```
+> Python    == 3.7.8
+> pip       == 21.3.1
+> asgiref   == 3.4.1
+> Django    == 3.2.8
+> pytz      == 2021.3
+> sqlparse  == 0.4.2
+> typing-extensions == 3.10.0.2
+```
 
+## Usage in Local
 
-[comment]: <> (## Usage in Local)
+```
 
-[comment]: <> (```)
+> git clone https://github.com/jerrygoha/hun.kr_Url_shortener.git
 
-[comment]: <> (> git clone https://github.com/jerrygoha/hun.kr_Url_shortener.git)
+> cd hun.kr_Url_shortener
 
-[comment]: <> (> cd hun.kr_Url_shortener)
+> pip install django
 
-[comment]: <> (> pip install django)
+> python manage.py makemigrations urlShortener
 
-[comment]: <> (> python manage.py makemigrations urlShortener)
+# 모델의 변경사항 번호(number) 체크 필요
 
-[comment]: <> (# 모델의 변경사항 번호&#40;number&#41; 체크 필요)
+> python manage.py migrate urlShortener {number}
 
-[comment]: <> (> python manage.py migrate urlShortener {number})
+> python manage.py runserver
 
-[comment]: <> (> python manage.py runserver)
-
-[comment]: <> (```)
+```
 
 
 ## API
