@@ -9,7 +9,7 @@
   - 도메인 형식이 다양하므로 예외 발생 가능성 있음
 
 ## Preview
-<img width="100%" src="https://user-images.githubusercontent.com/48903443/140422113-6411ec34-09b8-4a74-aad0-2aa739c974f0.gif"/>
+<img width="100%" src="https://user-images.githubusercontent.com/48903443/140506937-34611364-6614-4198-ab25-1e50e661a859.gif"/>
 
 <a href="https://youtu.be/bDvSCpXsqMU" target="_blank">영상으로 보기<a>
 
