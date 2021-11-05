@@ -11,7 +11,7 @@
 ## Preview
 <img width="100%" src="https://user-images.githubusercontent.com/48903443/140422113-6411ec34-09b8-4a74-aad0-2aa739c974f0.gif"/>
 
-<a href="https://youtu.be/OZXnNHopzME" target="_blank">영상으로 보기<a>
+<a href="https://youtu.be/bDvSCpXsqMU" target="_blank">영상으로 보기<a>
 
 
 ## Prerequisite
