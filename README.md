@@ -16,13 +16,13 @@
 
 ## Prerequisite
 ```
-> Python    == 3.7.8
-> pip       == 21.3.1
-> asgiref   == 3.4.1
-> Django    == 3.2.8
-> pytz      == 2021.3
-> sqlparse  == 0.4.2
-> typing-extensions == 3.10.0.2
+Python    == 3.7.8
+pip       == 21.3.1
+asgiref   == 3.4.1
+Django    == 3.2.8
+pytz      == 2021.3
+sqlparse  == 0.4.2
+typing-extensions == 3.10.0.2
 ```
 
 ## Usage in Local
