@@ -1,17 +1,21 @@
 # Url_shortener
 
-### Description
-#### 사용자가 입력한 url을 숫자와 문자(영문)이 섞인 8자리 이하의 문자로 축약시켜주는 서비스
+## Description
+사용자가 입력한 url을 숫자와 문자(영문)이 섞인 8자리 이하의 문자로 축약시켜주는 서비스
+
 
 ## Preview
 <img width="100%" src="https://user-images.githubusercontent.com/48903443/140422113-6411ec34-09b8-4a74-aad0-2aa739c974f0.gif"/>
 
    - [영상으로 보기](https://youtu.be/OZXnNHopzME)
 
-### Prerequisite
+
+## Prerequisite
    - Python
    - Pip3
-### Usage in Local
+
+
+## Usage in Local
 ```
 > git clone https://github.com/jerrygoha/hun.kr_Url_shortener.git
 
@@ -21,13 +25,15 @@
 
 > python manage.py makemigrations urlShortener
 
-# 모델의 변경사항 번호 체크 필요
-> python manage.py migrate urlShortener 0001
+# 모델의 변경사항 번호(number) 체크 필요
+> python manage.py migrate urlShortener {number}
 
 > python manage.py runserver
 ```
-### API
-#### Main Page
+
+
+## API
+### Main Page
 |Role|Api|Parameter|
 |---|---|---|
 |Home Page|GET&nbsp;&nbsp;&nbsp;&nbsp;/|None|
@@ -41,66 +47,61 @@
 ```
   "POST /shorten/ HTTP/1.1" 200 35
 ```
-#### Redirect Shortened Url
+
+
+### Redirect Shortened Url
 |Role|Api|Parameter|
 |---|---|---|
 |Redurect Original Url|GET&nbsp;&nbsp;&nbsp;&nbsp;/{shortened_url}|shortened_url value example : e92J9k|
 
-   - GET
+- Success Responce
 ```
   "GET /1n HTTP/1.1" 302 0
-```   - GET
+```
+
+- Failure Response
 ```
   "GET /1nasd HTTP/1.1" 404 179
 ```
-### TO-DO
+
+
+## TO-DO
 1. URL Shortener
-    
-2. DB는 어떻게?
+   - 웹 페이지 입력폼에 URL 입력 시 단축된 결과 출력
+   - 브라우저의 주소창에 단축 URL 입력 시 기존 URL로 리다이렉트
+   - 같은 URL 입력 시 동일한 결과값 도출
+   - 결과값은 주소를 제외하고 8글자 이내로 생성
+   
+
+2. DB
     - id, original url, shorten url, date(?)
     - 비용을 최대한 줄여야함
-    - 어떤 db 사용할지? -> sqlite
-    
+    - 어떤 db 사용할지?
+      - [ ] sqlite 사용, ORM vs 쿼리
+   
 
-3. 서버는 어떻게?        
-    - 인코딩된 코드를 db에 저장해두면 좀더 효율적이지 않을까? (-> db접속 vs 내부 function)
-    - responce에 바로 redirect 정보 담아 보내기
-    - 페이지에서 redirect 코드 실행하기    
-    - domain.com/api/v1/url/id ~ 형태로 api 설계하는게 좋지 않을까?
-    - 데드락 문제 체크하기
-    - redirect시 301 vs 302 어느것을 사용할지 고민해보기
+3. 서버
+    - API 설계  
+      - [ ] domain.com/api/v1/url/id ~ 형태로 api 설계하는게 좋지 않을까?
+    - 데드락 문제 발생 가능성 체크
+    - http 301 vs 302
+    - 중복체크
+      - [ ] 중복체크시 길이가 긴 url을 그대로 사용하면 비효율적이므로, md5 해시함수 사용하여 길이 줄인 후 체크
 
 
-4. 해싱함수
+4. 해시 함수
     - 해시값과 1대1 대응을 해야한다. -> 단순 랜덤 생성은 절대 안됨.
-    -     
+    - 인코딩과 디코딩 둘 다 가능해야할듯 싶다.
+    - url : 중복 체크를 하기위해 되도록 짧은 해시함수 사용
+    - id : base64 vs base62
+       - "+", "/", "="가 문자 내부에 있다면 제대로 처리가 안될 가능성이 있기때문에 base62사용
+       - base62 사용시 최대 id 62^8 번까지 커버 가능
+    - url을 소문자로 강제변환시켜야할지 고려 -> 그냥 입력받는대로 생성하자.
     
         
 5. 코드 품질을 높일 수 있는 방법
-    - PEP 8 참고
+    - PEP 8
+      - [ ] 주석처리 깔끔하게
+      - [ ] python docstring 작성하기
     - 각 함수마다 딱 하나의 기능만 할 수 있도록!
-    
 
-6. 기타 아이디어    
-        
-
----
-
-hashing 방법(메모)
-
-<1.먼저 두 형태로 hashing한다.>
-
-ㅣ---- url hashing : md5 hashing 사용 (동일한 입력값에 대해 결과가 항상 같기때문.)
-
-ㅣ---- id hashing : base62 hashing 사용
-
-why? : url은 길이가 굉장히 길기때문에 crc32, md5, 또는 커스텀 알고리즘을 만들어 해싱하는 경우
-        결과값이 중복될 가능성이 있다.
-        하지만, id값(int)은 base62(1~9, a~z, A~Z)를 사용하여 8자리 이내에서 중복없이 표현이 가능하다.
-        단, 일어날 수 있는 동시성 문제에 대해서는 실제 서비스에 미치는 영향이 미미하다 판단하여 고려하지 않는다.
-
-<2. url 중복체크 (md5)>
-
-db 내에서 긴 길이의 url끼리 중복체크를 하는것보다, 해싱된 문자를 비교하는게 비용이 더 저렴.
-다만, 다른 url끼리 해싱값이 같을 수 있으니, 해싱값이 같은 경우 original_url도 중복체크한다.(확률이 낮으므로 큰 비용 소모되지 않을듯하다.)
-해싱값이 같고, original_url도 같다면 완전히 중복되므로, 기존 original_url의 id 해싱값을 리턴한다.
