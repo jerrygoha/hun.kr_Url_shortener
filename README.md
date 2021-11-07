@@ -34,11 +34,6 @@ typing-extensions == 3.10.0.2
 
 > pip install django
 
-> python manage.py makemigrations urlShortener
-
-# 모델의 변경사항 번호(number) 체크 필요
-> python manage.py migrate urlShortener {number}
-
 > python manage.py runserver
 
 ```
@@ -97,3 +92,8 @@ typing-extensions == 3.10.0.2
       > ORM 사용 
    2. 비용 최소한으로
       > DB에 접속하는 비용 vs 파이썬 인코딩/디코딩 함수 돌리는 비용
+
+
+
+---
+잠시 수정중
