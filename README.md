@@ -1,6 +1,4 @@
-# Url_shortener
-
-## Description
+## Url_shortener
 사용자가 입력한 url을 숫자와 문자(영문)이 섞인 8자리 이하의 문자로 축약시켜주는 서비스
 - 같은 url 입력시 동일한 결과값 출력
 - http://, https:// 정도는 같은 주소로 취급하도록 함
@@ -9,7 +7,8 @@
   - 도메인 형식이 다양하므로 예외 발생 가능성 있음
 
 ## Preview
-<img width="100%" src="https://user-images.githubusercontent.com/48903443/140422113-6411ec34-09b8-4a74-aad0-2aa739c974f0.gif"/>
+<img width="100%" src="https://user-images.githubusercontent.com/48903443/140506937-34611364-6614-4198-ab25-1e50e661a859.gif"/>
+
 
 <a href="https://youtu.be/OZXnNHopzME" target="_blank">영상으로 보기<a>
 
@@ -79,42 +78,22 @@ typing-extensions == 3.10.0.2
 
 
 ## TO-DO
-1. URL Shortener
+1. URL Shortener (Main)
    - 웹 페이지 입력폼에 URL 입력 시 단축된 결과 출력
    - 브라우저의 주소창에 단축 URL 입력 시 기존 URL로 리다이렉트
    - 같은 URL 입력 시 동일한 결과값 도출
    - 결과값은 주소를 제외하고 8글자 이내로 생성
    
-
+## HOW TO...
+1. URL Shortener
+   1. 브라우저 주소창에 단축 URL 입력 시 기존 URL로 리다이렉트
+      > http 302 redirection 사용.
+   2. 같은 URL 입력 시 동일한 결과값 도출
+      > md5 인코딩 후 DB에서 비교, 중복인 경우 기존 id값을 참고하여 결과값 도출
+   3. 결과값은 주소를 제외하고 8글자 이내로 생성
+      > 튜플의 id값을 base62로 인코딩하여 출력
 2. DB
-    - id, original url, shorten url, date(?)
-    - 비용을 최대한 줄여야함
-    - 어떤 db 사용할지?
-      - [ ] sqlite 사용, ORM vs 쿼리
-   
-
-3. 서버
-    - API 설계  
-      - [ ] domain.com/api/v1/url/id ~ 형태로 api 설계하는게 좋지 않을까?
-    - 데드락 문제 발생 가능성 체크
-    - http 301 vs 302
-    - 중복체크
-      - [ ] 중복체크시 길이가 긴 url을 그대로 사용하면 비효율적이므로, md5 해시함수 사용하여 길이 줄인 후 체크
-
-
-4. 해시 함수
-    - 해시값과 1대1 대응을 해야한다. -> 단순 랜덤 생성은 절대 안됨.
-    - 인코딩과 디코딩 둘 다 가능해야할듯 싶다.
-    - url : 중복 체크를 하기위해 되도록 짧은 해시함수 사용
-    - id : base64 vs base62
-       - "+", "/", "="가 문자 내부에 있다면 제대로 처리가 안될 가능성이 있기때문에 base62사용
-       - base62 사용시 최대 id 62^8 번까지 커버 가능
-    - url을 소문자로 강제변환시켜야할지 고려 -> 그냥 입력받는대로 생성하자.
-    
-        
-5. 코드 품질을 높일 수 있는 방법
-    - PEP 8
-      - [ ] 주석처리 깔끔하게
-      - [ ] python docstring 작성하기
-    - 각 함수마다 딱 하나의 기능만 할 수 있도록!
-
+   1. ORM vs raw sql
+      > ORM 사용 
+   2. 비용 최소한으로
+      > DB에 접속하는 비용 vs 파이썬 인코딩/디코딩 함수 돌리는 비용
