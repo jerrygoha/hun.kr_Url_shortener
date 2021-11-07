@@ -10,7 +10,7 @@
 <img width="100%" src="https://user-images.githubusercontent.com/48903443/140506937-34611364-6614-4198-ab25-1e50e661a859.gif"/>
 
 
-<a href="https://youtu.be/OZXnNHopzME" target="_blank">영상으로 보기<a>
+<a href="https://youtu.be/bDvSCpXsqMU" target="_blank">영상으로 보기<a>
 
 
 ## Prerequisite
